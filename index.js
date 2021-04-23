@@ -1,5 +1,8 @@
 const express = require("express");
 const app = express();
+const cors = require("cors");
+app.use(cors());
+app.use(express.json());
 const port = 5000;
 require("dotenv").config();
 
@@ -14,13 +17,22 @@ const client = new MongoClient(uri, {
   useUnifiedTopology: true
 });
 client.connect((err) => {
-  const productscollection = client.db("Grameenponno").collection("products");
+  const productsCollection = client.db("Grameenponno").collection("products");
 
   app.get("/products", (req, res) => {
-    productscollection.find({}).toArray((err, documents) => {
+    productsCollection.find({}).toArray((err, documents) => {
       res.send(documents);
     });
   });
+  app.post("/addProducts", (req, res) => {
+    const products = req.body;
+
+    productsCollection.insertMany(products, (err, result) => {
+      console.log(err, result);
+      res.send({ count: result.insertedCount });
+    });
+  });
+
   app.get("/", (req, res) => {
     res.send("Hello World!");
   });

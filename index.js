@@ -1,21 +1,11 @@
 const express = require("express");
-
-
 const app = express();
-const cors =require('cors');
-app.
+const port = 5000;
 
-
-const port = 4000;
-
-
-app.get("/", (request, response) => {
-  
-  response.send("Hi, from Node server");
+app.get("/", (req, res) => {
+  res.send("Hello World!");
 });
 
-//start server and listen for the request
-app.listen(port, () =>
-  //a callback that will be called as soon as server start listening
-  console.log(`server is listening at http://localhost:${port}`)
-);
+app.listen(port, () => {
+  console.log(`Example app listening at http://localhost:${port}`);
+});
